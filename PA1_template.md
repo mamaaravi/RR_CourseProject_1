@@ -5,10 +5,10 @@ output: html_document
 
 _Intro and Data Source from Course assignment description_
 
-##Introduction
+## Introduction
 This assignment makes use of data from a personal activity monitoring device. This device collects data at 5 minute intervals through out the day. The data consists of two months of data from an anonymous individual collected during the months of October and November, 2012 and include the number of steps taken in 5 minute intervals each day.
 
-##Data Source
+## Data Source
 **Dataset** Available here: [https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip)
 
 **Fileformat** CSV
@@ -26,7 +26,7 @@ This assignment makes use of data from a personal activity monitoring device. Th
 
 
 
-##Loading and preprocessing the data
+## Loading and preprocessing the data
 
 ```r
 activity <- read.csv("./activity.csv")
@@ -44,18 +44,18 @@ summary(activity)
 ##  NA's   :2304    (Other)   :15840
 ```
 
-##Total Number of Steps Taken Per Day
+## Total Number of Steps Taken Per Day
 
-###Histogram of total number of steps taken per day
+### Histogram of total number of steps taken per day
 
 ```r
 hist(tapply(activity$steps,activity$date,sum), main = paste("Histogram of Total Number of Steps Taken per Day"), xlab="Sum of Steps")
 ```
 
-![plot of chunk historgram](figure/historgram.png) 
+![plot of chunk 1](plot1.png) 
 
 
-###Calculate mean and median total number of steps taken per day
+### Calculate mean and median total number of steps taken per day
 
 ```r
 meanSteps <- mean(tapply(activity$steps,activity$date,sum), na.rm=TRUE)
@@ -75,16 +75,16 @@ print(paste0("Median total number of steps taken per day is: ", medianSteps))
 ## [1] "Median total number of steps taken per day is: 10765"
 ```
 
-##Average daily activity pattern
+## Average daily activity pattern
 
-###Time Series Plot, Interval with Max number of steps
+### Time Series Plot, Interval with Max number of steps
 
 ```r
 avgStepsInt <- tapply(activity$steps,activity$interval,mean, na.rm=TRUE)
 plot(names(avgStepsInt), avgStepsInt, type="l", main = "Time Series Plot", xlab="5-minute Intervals", ylab="Avg Steps")
 ```
 
-![plot of chunk activitypattern](figure/activitypattern.png) 
+![plot of chunk 2](plot2.png) 
 
 ```r
 ## which.max gives index number of the max 5-minute value, so to get the
@@ -97,7 +97,7 @@ print(paste0("Interval ", as.numeric(names(which.max(avgStepsInt))) , " contains
 ## [1] "Interval 835 contains the maximum number of steps."
 ```
 
-##Imputing Missing Values
+## Imputing Missing Values
 
 Calculate and report the total number of missing values in the dataset
 
@@ -110,7 +110,7 @@ print(paste0("There are ", sum(is.na(activity)) , " missing values in the datase
 ## [1] "There are 2304 missing values in the dataset."
 ```
 
-###Strategy for filling in missing values in the dataset
+### Strategy for filling in missing values in the dataset
 
 My initial strategy was to 
 
@@ -122,7 +122,7 @@ But after taking the mean number of steps per day, I realized that there are day
 
 * calculate the mean number of steps per time interval
 
-###Create a new dataset
+### Create a new dataset
 Using the above strategy replace the missing values in the activity dataset with the new mean
 
 
@@ -143,16 +143,16 @@ for (i in which(is.na(activityNoNA)))
 ##new dataset is activityNoNA
 ```
 
-###Historgram with new Dataset
+### Historgram with new Dataset
 
 ```r
 hist(tapply(activityNoNA$steps,activityNoNA$date,sum), main = paste("Histogram of Total Number of Steps Taken per Day"), xlab="Sum of Steps")
 ```
 
-![plot of chunk newHistorgram](figure/newHistorgram.png) 
+![plot of chunk 3](figure/plot3.png) 
 
 
-###Calculate mean and median total number of steps taken per day
+### Calculate mean and median total number of steps taken per day
 
 ```r
 meanSteps <- mean(tapply(activityNoNA$steps,activityNoNA$date,sum), na.rm=TRUE)
@@ -176,11 +176,11 @@ The value for mean in my new file is the same in as the original file. The media
 
 Imputing missing data for missing data increased the number of steps taken per day. 
 
-##Difference in Activity Patterns Between Weeekdays and Weekends?
+## Difference in Activity Patterns Between Weeekdays and Weekends?
 
 For this analysis the dataset with NAs replaced will be used, activityNoNA
 
-###Adding new variable for weekend/weekday
+### Adding new variable for weekend/weekday
 
 Add a new column to the new activity file specifying the day of the week.
 Then the data will be plotted as a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
@@ -208,7 +208,7 @@ for (i in 1:length(activityNoNA$steps))
     activityNoNA <- cbind(activityNoNA,dayWeek)
 ```
 
-###Weekday/weekend charts
+### Weekday/weekend charts
 Time series plot of 5-minute interval
 
 
@@ -244,5 +244,4 @@ xyplot(avgSteps ~ interval | dayweek, intPlot, layout=c(1,2),
 type="l",main = "Time Series Plot", xlab="5-minute Intervals", ylab="Avg Steps")
 ```
 
-![plot of chunk weekDayWeekEnd](figure/weekDayWeekEnd.png) 
-
+![plot of chunk 4](figure/plot4.png) 
