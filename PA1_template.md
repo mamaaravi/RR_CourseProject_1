@@ -149,7 +149,7 @@ for (i in which(is.na(activityNoNA)))
 hist(tapply(activityNoNA$steps,activityNoNA$date,sum), main = paste("Histogram of Total Number of Steps Taken per Day"), xlab="Sum of Steps")
 ```
 
-![plot of chunk 3](figure/plot3.png) 
+![plot of chunk 3](plot3.png) 
 
 
 ### Calculate mean and median total number of steps taken per day
@@ -244,4 +244,4 @@ xyplot(avgSteps ~ interval | dayweek, intPlot, layout=c(1,2),
 type="l",main = "Time Series Plot", xlab="5-minute Intervals", ylab="Avg Steps")
 ```
 
-![plot of chunk 4](figure/plot4.png) 
+![plot of chunk 4](plot4.png) 
